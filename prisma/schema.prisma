@@ -9,3 +9,33 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Todo {
+  id Int @id @default(autoincrement())
+  name String
+  description String?
+  priority PriorityType? @default(NORMAL)
+  done Boolean @default(false)
+  deadline DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  categories Category[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  description String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  todos Todo[]
+}
+
+
+
+enum PriorityType {
+  LOW
+  NORMAL
+  IMPORTANT
+  CRITICAL
+}
