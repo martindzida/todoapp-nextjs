@@ -14,7 +14,7 @@ model Todo {
   id Int @id @default(autoincrement())
   name String
   description String?
-  priority PriorityType? @default(NORMAL)
+  priority PriorityType? @default(Normal)
   done Boolean @default(false)
   deadline DateTime
   createdAt DateTime @default(now())
@@ -34,8 +34,8 @@ model Category {
 
 
 enum PriorityType {
-  LOW
-  NORMAL
-  IMPORTANT
-  CRITICAL
+  Low
+  Normal
+  Important
+  Critical
 }
