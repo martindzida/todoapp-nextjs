@@ -1,7 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 const Home: NextPage = () => {
+
+  /*const fetchTodos = () => {
+    axios.get('/todos').then(res => res.data)
+  }
+
+  const { data } = useQuery(['todos'], fetchTodos)
+  */
   return (
     <div>
       <Head>
