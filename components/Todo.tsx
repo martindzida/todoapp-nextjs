@@ -1,6 +1,7 @@
 import React from 'react'
 import { Todo } from '@prisma/client'
 
+
 const Todo = (props: Todo) => {
   return (
     <div className='bg-slate-700 text-white shadow-md rounded-md mx-2 my-3 px-2 py-3'>
