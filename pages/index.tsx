@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import TodoItem from '../components/TodoItem'
+import AddTodo from '../components/AddTodo'
 import { useQuery } from '@tanstack/react-query'
 import { Todo } from '@prisma/client'
 import axios from 'axios'
@@ -9,7 +10,6 @@ const Home: NextPage = () => {
 
   const fetchTodos = async () => axios.get('/api/todos').then(res => res.data)
   const { data, isLoading, error } = useQuery(['todos'], fetchTodos)
-  console.log(data)
 
   if (isLoading) {
       return <div>Loading</div>
@@ -29,6 +29,7 @@ const Home: NextPage = () => {
       {
         data.map((t: Todo) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} />)
       }
+      <AddTodo />
     </div>
   )
 }
