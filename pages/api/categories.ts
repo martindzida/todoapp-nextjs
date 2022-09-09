@@ -4,7 +4,9 @@ import { Category } from '@prisma/client'
 
 
 export default async (req:NextApiRequest, res: NextApiResponse<Category[]>) => {
-    //check the req.method === 'GET'
+    if (req.method !== 'GET') {
+        return res.status(405);
+    }
     const categories = await prisma.category.findMany()
     res.status(200).json(categories)
 }

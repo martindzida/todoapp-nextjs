@@ -4,7 +4,9 @@ import { Todo } from '@prisma/client'
 
 
 export default async (req:NextApiRequest, res: NextApiResponse<Todo[]>) => {
-    //check the req.method === 'GET'
+    if (req.method !== 'GET') {
+        return res.status(405);
+    }
     const todos = await prisma.todo.findMany()
     res.status(200).json(todos)
 }

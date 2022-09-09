@@ -37,5 +37,4 @@ enum PriorityType {
   Low
   Normal
   Important
-  Critical
 }
