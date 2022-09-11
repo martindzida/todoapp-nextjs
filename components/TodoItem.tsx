@@ -1,8 +1,21 @@
 import React from 'react'
 import { Todo } from '@prisma/client'
+import { useMutation } from '@tanstack/react-query'
+import { XMarkIcon } from '@heroicons/react/24/solid'
+import axios from 'axios'
 
 
 const TodoItem = (props: Todo) => {
+
+
+  const mutation = useMutation((id: number) => {
+    return axios.delete(`/api/todo/${id}`)
+  })
+
+  const delTodo = (id: number) => {
+    mutation.mutate(id)
+  }
+
 
   let priorityBg = ''
   switch (props.priority) {
@@ -30,7 +43,14 @@ const TodoItem = (props: Todo) => {
         </h4>
         <span className={`basis-1/4 ${priorityBg} text-xs text-center rounded-lg px-2 py-1`}>{props.done ? 'Done' : props.priority}</span>
       </div>
-      <p className={`text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
+      <div className='flex flex-row'>
+        <p className={`basis-3/4 text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
+        <button className='basis-1/4 bg-rose-500 text-white rounded-md' onClick={() => {
+          delTodo(props.id)
+        }}>
+          <XMarkIcon className='w-5 h-5' />
+          </button>
+      </div>
     </div>
   )
 }

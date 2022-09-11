@@ -5,8 +5,11 @@ import AddTodo from '../components/AddTodo'
 import { useQuery } from '@tanstack/react-query'
 import { Todo } from '@prisma/client'
 import axios from 'axios'
+import { useState } from 'react'
 
 const Home: NextPage = () => {
+
+  const [ addForm, toggleAddForm ] = useState(false)
 
   const fetchTodos = async () => axios.get('/api/todos').then(res => res.data)
   const { data, isLoading, error } = useQuery(['todos'], fetchTodos)
@@ -19,6 +22,7 @@ const Home: NextPage = () => {
     return <div>Error</div>
   }
   
+  //TODO: some flexbox or grid
   return (
     <div>
       <Head>
@@ -29,7 +33,9 @@ const Home: NextPage = () => {
       {
         data.map((t: Todo) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} />)
       }
-      <AddTodo />
+      <button className='bg-rose-500 text-white text-lg rounded-md shadow-lg p-2' onClick={() => {
+        toggleAddForm(!addForm) }}>Add Todo</button>
+      {addForm && <AddTodo />}
     </div>
   )
 }

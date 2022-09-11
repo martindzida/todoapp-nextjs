@@ -8,7 +8,6 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
     }
     
     const { name, description, priority, deadline } = req.body
-    //const {name, description, priority, done, deadline} = req.body
     const todo = await prisma.todo.create({
         data:{
             name: name,
