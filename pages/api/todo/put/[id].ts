@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from '../../../lib/prisma'
+import { prisma } from '../../../../lib/prisma'
 
 
 export default async (req:NextApiRequest, res: NextApiResponse) => {
-    //TODO: PUT will be handled here as well
-    if (req.method !== 'DELETE') {
+    if (req.method !== 'PUT') {
         return res.status(405);
     }
 
@@ -14,10 +13,18 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
         return res.status(404)
     }
     
+    const { name, description, priority, deadline } = req.body
+    //TODO: done might be updated as well
 
-    const delTodo = await prisma.todo.delete({
+    const delTodo = await prisma.todo.update({
         where: {
             id: parseInt(id)
+        },
+        data: {
+            name: name,
+            description: description,
+            priority: priority,
+            deadline: deadline
         }
     })
     res.status(200).json({message: 'Success'})
