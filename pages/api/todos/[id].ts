@@ -1,16 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from '../../../lib/prisma'
 import { Todo } from '@prisma/client'
-import { useRouter } from "next/router";
 
 
 export default async (req:NextApiRequest, res: NextApiResponse<Todo | null>) => {
-    //FIXME: somehow get id from url
-    const router = useRouter() 
-    const { id } = router.query
+    const { id } = req.query
 
     if (typeof id !== "string") {
-        return
+        return res.status(404)
     }
 
     const getTodo = await prisma.todo.findUnique({

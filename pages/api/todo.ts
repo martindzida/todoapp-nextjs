@@ -7,13 +7,14 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
         return res.status(405);
     }
     
-    const d = new Date()
+    const { name, description, priority, deadline } = req.body
     //const {name, description, priority, done, deadline} = req.body
     const todo = await prisma.todo.create({
         data:{
-            name: 'Post requests',
-            description: 'New todos are coming',
-            deadline: d,
+            name: name,
+            description: description,
+            priority: priority,
+            deadline: deadline
         }
     })
     res.status(200).json({message: 'Success'})

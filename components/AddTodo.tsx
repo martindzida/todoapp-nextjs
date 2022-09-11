@@ -19,13 +19,12 @@ interface TodoForm {
 
 const AddTodo = () => {
   const { register, handleSubmit, formState: { errors }} = useForm<TodoForm>()
-  //callback funkce pro handlesubmit - query
-  const mutation = useMutation(newTodo => {
-    return axios.post('/api/todo')
+  const mutation = useMutation((newTodo: TodoForm) => {
+    return axios.post('/api/todo', newTodo)
   })
 
   const onSubmit = (data: TodoForm) => {
-    //mutation.mutate(data)
+    mutation.mutate(data)
   }
 
 
