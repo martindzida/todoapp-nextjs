@@ -3,13 +3,27 @@ import { Todo } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
 import { XMarkIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
 import axios from 'axios'
+import { queryClient } from '../pages/_app'
 
 
 const TodoItem = (props: Todo) => {
 
 
+  const formatDate = (date: Date) => {
+    const s_date = date.toString()
+    const d = s_date.split('T')[0]
+    //TODO: generally should work with time, but for now i only have a date input
+    const p_d = d.split('-')
+    
+    return `${p_d[2]}. ${p_d[1]}. ${p_d[0]}`
+  }
+
   const delMut = useMutation((id: number) => {
-    return axios.delete(`/api/todo/delete${id}`)
+    return axios.delete(`/api/todo/delete/${id}`)
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['todos'])
+    }
   })
 
   const updMut = useMutation((id: number) => {
@@ -46,25 +60,38 @@ const TodoItem = (props: Todo) => {
 
 
   return (
-    <div className='bg-slate-700 text-white shadow-md rounded-md mx-2 my-3 px-2 py-3'>
-      <div className='flex flex-row font-bold p-2 mx-2'>
-        <h4 className={`basis-3/4 text-lg ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>
-          {props.name}
+    <div className='bg-slate-700 text-white shadow-md rounded-md mx-3 my-3 px-3 py-3'>
+      <div className='flex flex-row p-2 mx-2'>
+        <div className='basis-3/4'>
+          <h4 className={`text-lg font-bold ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>
+            {props.name}
         </h4>
-        <span className={`basis-1/4 ${priorityBg} text-xs text-center rounded-lg px-2 py-1`}>{props.done ? 'Done' : props.priority}</span>
+        </div>
+        <div className='basis-1/4'>
+          <span className={`${priorityBg} text-xs text-center font-semibold rounded-lg px-2 py-1`}>{props.done ? 'Done' : props.priority}</span>
+        </div>
+      </div>
+      <div className='p-2 mx-2'>
+        {formatDate(props.deadline)}
       </div>
       <div className='flex flex-row'>
-        <p className={`basis-1/2 text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
-        <button className='basis-1/4 bg-rose-500 text-white rounded-md mx-1' onClick={() => {
-          delTodo(props.id)
-        }}>
-          <XMarkIcon className='w-5 h-5' />
-        </button>
-        <button className='basis-1/4 bg-rose-500 text-white rounded-md mx-1' onClick={() => {
-          updTodo(props.id)
-        }}>
-          <PencilSquareIcon className='w-5 h-5' />
-        </button>
+        <div className='basis-1/2'>
+          <p className={`text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
+        </div>
+        <div className='basis-1/4'>
+          <button className='bg-rose-500 text-white rounded-md mx-1 p-2' onClick={() => {
+            delTodo(props.id)
+          }}>
+            <XMarkIcon className='w-5 h-5' />
+          </button>
+        </div>
+        <div className='basis-1/4'>
+          <button className='bg-rose-500 text-white rounded-md mx-1 p-2' onClick={() => {
+            updTodo(props.id)
+          }}>
+            <PencilSquareIcon className='w-5 h-5' />
+          </button>
+        </div>
       </div>
     </div>
   )

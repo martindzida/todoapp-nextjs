@@ -23,6 +23,7 @@ const Home: NextPage = () => {
   }
   
   //TODO: some flexbox or grid
+  //FIXME: hover state not working anywhere, madness
   return (
     <div>
       <Head>
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
       {
         data.map((t: Todo) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} />)
       }
-      <button className='bg-rose-500 text-white text-lg rounded-md shadow-lg p-2' onClick={() => {
+      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => {
         toggleAddForm(!addForm) }}>Add Todo</button>
       {addForm && <AddTodo />}
     </div>
