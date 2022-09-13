@@ -62,12 +62,12 @@ const TodoItem = (props: Todo) => {
   return (
     <div className='bg-slate-700 text-white shadow-md rounded-md mx-3 my-3 px-3 py-3'>
       <div className='flex flex-row p-2 mx-2'>
-        <div className='basis-3/4'>
+        <div className='grow'>
           <h4 className={`text-lg font-bold ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>
             {props.name}
         </h4>
         </div>
-        <div className='basis-1/4'>
+        <div className='flex-none flex justify-end'>
           <span className={`${priorityBg} text-xs text-center font-semibold rounded-lg px-2 py-1`}>{props.done ? 'Done' : props.priority}</span>
         </div>
       </div>
@@ -75,21 +75,21 @@ const TodoItem = (props: Todo) => {
         {formatDate(props.deadline)}
       </div>
       <div className='flex flex-row'>
-        <div className='basis-1/2'>
+        <div className='grow'>
           <p className={`text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
         </div>
-        <div className='basis-1/4'>
-          <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
-            delTodo(props.id)
-          }}>
-            {delMut.isLoading ? <Spinner /> : <XMarkIcon className='w-5 h-5' />}
-          </button>
-        </div>
-        <div className='basis-1/4'>
+        <div className='flex-none flex justify-end'>
           <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
             updTodo(props.id)
           }}>
             {updMut.isLoading ? <Spinner /> : <PencilSquareIcon className='w-5 h-5' />}
+          </button>
+        </div>
+        <div className='flex-none flex justify-end'>
+          <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
+            delTodo(props.id)
+          }}>
+            {delMut.isLoading ? <Spinner /> : <XMarkIcon className='w-5 h-5' />}
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../pages/_app'
+import { Category } from '@prisma/client'
 
 
 enum Priority {
@@ -11,11 +12,17 @@ enum Priority {
   Important
 }
 
+interface CategoryProp {
+  id: number,
+  name: string
+}
 interface TodoFormProps {
   name: string,
   description?: string,
-  priority?: Priority
-  deadline: Date
+  priority?: Priority,
+  deadline: Date,
+  categories?: CategoryProp[]
+
 }
 
 const TodoForm = () => {

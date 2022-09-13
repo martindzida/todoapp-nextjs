@@ -6,13 +6,15 @@ import { useQuery } from '@tanstack/react-query'
 import { Todo } from '@prisma/client'
 import axios from 'axios'
 import { useState } from 'react'
+import Navbar from '../components/Navbar'
+import Filter from '../components/Filter'
 
 
 const Home: NextPage = () => {
 
   const [ addForm, toggleAddForm ] = useState(false)
 
-  const fetchTodos = async () => axios.get('/api/todos').then(res => res.data)
+  const fetchTodos = () => axios.get('/api/todos').then(res => res.data)
   const { data, isLoading, error } = useQuery(['todos'], fetchTodos)
 
   if (isLoading) {
@@ -24,7 +26,11 @@ const Home: NextPage = () => {
   }
 
   if (error) {
-    return <div>Error</div>
+      return (
+        <div className='h-screen w-screen bg-slate-600 flex flex-col items-center justify-center'>
+          <h2 className='text-4xl font-extrabold text-white text-center'>Error</h2>
+        </div>
+      )
   }
   
   //TODO: some flexbox or grid
@@ -39,6 +45,7 @@ const Home: NextPage = () => {
       <div className='p-8'>
         <h1 className='text-white text-5xl text-center font-extrabold'>Todo App</h1>
       </div>
+      <Filter />
       {
         data.map((t: Todo) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} />)
       }
