@@ -2,21 +2,19 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import TodoItem from '../components/TodoItem'
 import TodoForm from '../components/TodoForm'
-import { useQuery } from '@tanstack/react-query'
 import { Todo } from '@prisma/client'
-import axios from 'axios'
 import { useState } from 'react'
-import Navbar from '../components/Navbar'
 import Filter from '../components/Filter'
+import useAllTodos from '../utils/hooks/useAllTodos'
 
 
 const Home: NextPage = () => {
 
   const [ addForm, toggleAddForm ] = useState(false)
 
-  const fetchTodos = () => axios.get('/api/todos').then(res => res.data)
-  const { data, isLoading, error } = useQuery(['todos'], fetchTodos)
+  const { data, isLoading, error } = useAllTodos()
 
+  console.log(data)
   if (isLoading) {
       return (
         <div className='h-screen w-screen bg-slate-600 flex flex-col items-center justify-center'>
