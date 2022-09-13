@@ -11,16 +11,16 @@ enum Priority {
   Important
 }
 
-interface TodoForm {
+interface TodoFormProps {
   name: string,
   description?: string,
   priority?: Priority
   deadline: Date
 }
 
-const AddTodo = () => {
-  const { register, handleSubmit, formState: { errors }} = useForm<TodoForm>()
-  const mutation = useMutation((newTodo: TodoForm) => {
+const TodoForm = () => {
+  const { register, handleSubmit, formState: { errors }} = useForm<TodoFormProps>()
+  const mutation = useMutation((newTodo: TodoFormProps) => {
     return axios.post('/api/todo/create', newTodo)
   }, {
     onSuccess: () => {
@@ -28,7 +28,7 @@ const AddTodo = () => {
     }
   })
 
-  const onSubmit = (data: TodoForm) => {
+  const onSubmit = (data: TodoFormProps) => {
     mutation.mutate(data)
   }
 
@@ -55,4 +55,4 @@ const AddTodo = () => {
   )
 }
 
-export default AddTodo
+export default TodoForm

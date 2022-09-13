@@ -1,13 +1,13 @@
 import React from 'react'
 import { Todo } from '@prisma/client'
-import { useMutation } from '@tanstack/react-query'
+import { Mutation, useMutation } from '@tanstack/react-query'
 import { XMarkIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
 import axios from 'axios'
 import { queryClient } from '../pages/_app'
+import Spinner from './Spinner'
 
 
 const TodoItem = (props: Todo) => {
-
 
   const formatDate = (date: Date) => {
     const s_date = date.toString()
@@ -79,17 +79,17 @@ const TodoItem = (props: Todo) => {
           <p className={`text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
         </div>
         <div className='basis-1/4'>
-          <button className='bg-rose-500 text-white rounded-md mx-1 p-2' onClick={() => {
+          <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
             delTodo(props.id)
           }}>
-            <XMarkIcon className='w-5 h-5' />
+            {delMut.isLoading ? <Spinner /> : <XMarkIcon className='w-5 h-5' />}
           </button>
         </div>
         <div className='basis-1/4'>
-          <button className='bg-rose-500 text-white rounded-md mx-1 p-2' onClick={() => {
+          <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
             updTodo(props.id)
           }}>
-            <PencilSquareIcon className='w-5 h-5' />
+            {updMut.isLoading ? <Spinner /> : <PencilSquareIcon className='w-5 h-5' />}
           </button>
         </div>
       </div>
