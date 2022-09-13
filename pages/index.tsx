@@ -2,20 +2,21 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import TodoItem from '../components/TodoItem'
 import TodoForm from '../components/TodoForm'
-import { Todo } from '@prisma/client'
+import { TodoProps } from '../components/TodoItem'
 import { useState } from 'react'
 import Filter from '../components/Filter'
 import useAllTodos from '../utils/hooks/useAllTodos'
+import useAllCategories from '../utils/hooks/useAllCategories'
 
 
 const Home: NextPage = () => {
 
   const [ addForm, toggleAddForm ] = useState(false)
 
-  const { data, isLoading, error } = useAllTodos()
+  const todos = useAllTodos()
+  const categories = useAllCategories()
 
-  console.log(data)
-  if (isLoading) {
+  if (todos.isLoading || categories.isLoading) {
       return (
         <div className='h-screen w-screen bg-slate-600 flex flex-col items-center justify-center'>
           <h2 className='text-4xl font-extrabold text-white text-center'>Loading...</h2>
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
       )
   }
 
-  if (error) {
+  if (todos.error || categories.error) {
       return (
         <div className='h-screen w-screen bg-slate-600 flex flex-col items-center justify-center'>
           <h2 className='text-4xl font-extrabold text-white text-center'>Error</h2>
@@ -45,7 +46,7 @@ const Home: NextPage = () => {
       </div>
       <Filter />
       {
-        data.map((t: Todo) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} />)
+        todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories}/>)
       }
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg mx-3 p-2' onClick={() => {
         toggleAddForm(!addForm) }}>Add Todo</button>

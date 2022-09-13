@@ -1,5 +1,5 @@
 import React from 'react'
-import { Todo } from '@prisma/client'
+import { Todo, Category } from '@prisma/client'
 import { Mutation, useMutation } from '@tanstack/react-query'
 import { XMarkIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
 import axios from 'axios'
@@ -7,12 +7,14 @@ import { queryClient } from '../pages/_app'
 import Spinner from './Spinner'
 
 
-const TodoItem = (props: Todo) => {
+//TODO: should be more consistent, in other components using interface for props
+export type TodoProps = Todo & {categories: Category[] | []}
+
+const TodoItem = (props: TodoProps) => {
 
   const formatDate = (date: Date) => {
     const s_date = date.toString()
     const d = s_date.split('T')[0]
-    //TODO: generally should work with time, but for now i only have a date input
     const p_d = d.split('-')
     
     return `${p_d[2]}. ${p_d[1]}. ${p_d[0]}`
@@ -74,9 +76,15 @@ const TodoItem = (props: Todo) => {
       <div className='p-2 mx-2'>
         {formatDate(props.deadline)}
       </div>
+      <div className='p-2 mx-2'>
+          <p className={`text-sm ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
+      </div>
       <div className='flex flex-row'>
-        <div className='grow'>
-          <p className={`text-sm p-2 mx-2 ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
+        <div className='grow text-sm font-semibold p-2 mx-2'>
+          {props.categories.length !== 0 && "Categories: "}
+          {props.categories.map((c: Category) => 
+            <span key={c.id} className='bg-rose-500 text-center text-xs rounded-lg px-2 py-1'>{c.name}</span>
+          )}
         </div>
         <div className='flex-none flex justify-end'>
           <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {

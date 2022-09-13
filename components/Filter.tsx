@@ -10,7 +10,7 @@ const Filter = () => {
     console.log(data)
   }
 
-  const sortDate = watch('byDate')
+  const sortDate = watch('byDate', 'Latest')
 
   return (
     <div className='flex flex-row justify-center items-center bg-slate-700 text-white shadow-lg rounded-md p-3 mx-3 m'>
