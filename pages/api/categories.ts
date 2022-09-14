@@ -7,6 +7,8 @@ export default async (req:NextApiRequest, res: NextApiResponse<Category[]>) => {
     if (req.method !== 'GET') {
         return res.status(405);
     }
-    const categories = await prisma.category.findMany()
+    const categories = await prisma.category.findMany({
+        include: { todos: true }
+    })
     res.status(200).json(categories)
 }

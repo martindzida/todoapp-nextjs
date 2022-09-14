@@ -10,6 +10,7 @@ import useAllCategories from '../utils/hooks/useAllCategories'
 import { FilterParams } from '../components/Filter'
 import Display from '../components/Display'
 import { DisplayType } from '../components/Display'
+import CategoryItem from '../components/CategoryItem'
 
 
 const Home: NextPage = () => {
@@ -46,7 +47,6 @@ const Home: NextPage = () => {
     setDisplayList(display) 
   }
 
-  console.log(displayList)
   //TODO: some flexbox or grid
   //FIXME: hover state not working anywhere, madness
   return (
@@ -64,7 +64,7 @@ const Home: NextPage = () => {
       <div className='overflow-auto my-4'>
         {
           displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories}/>)
-           : 'Categories'
+           : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos}/>)
         }
       </div>
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
