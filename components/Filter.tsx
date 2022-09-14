@@ -18,7 +18,7 @@ const Filter = (props: FilterProps) => {
   const { register, handleSubmit, watch } = useForm()
 
   const submitForm = (data: any) => {
-    console.log(data)
+    props.filtering(data.filter)
   }
 
   const sortDate = watch('byDate', 'Latest')
@@ -34,7 +34,7 @@ const Filter = (props: FilterProps) => {
             <option value="Latest">Latest</option>
             <option value="Oldest">Oldest</option>
           </select>
-          <select name="byCategory" id="byCategory" className='bg-rose-500 text-white text-center cursor-pointer rounded-md p-1'>
+          <select {...register('byCategory')} name="byCategory" id="byCategory" className='bg-rose-500 text-white text-center cursor-pointer rounded-md p-1'>
             {props.categories.map((c: Category) =>
               <option key={c.id} value={c.name}>{c.name}</option>
             )}

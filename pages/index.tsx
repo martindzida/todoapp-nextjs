@@ -9,11 +9,13 @@ import useAllTodos from '../utils/hooks/useAllTodos'
 import useAllCategories from '../utils/hooks/useAllCategories'
 import { FilterParams } from '../components/Filter'
 import Display from '../components/Display'
+import { DisplayType } from '../components/Display'
 
 
 const Home: NextPage = () => {
 
   const [ addForm, toggleAddForm ] = useState(false)
+  const [ displayList, setDisplayList ] = useState<DisplayType>('Todos')
 
   const todos = useAllTodos()
   const categories = useAllCategories()
@@ -38,10 +40,13 @@ const Home: NextPage = () => {
   const handleFilter = (filter: FilterParams) => {
     //TODO: useQuery with filter and display
     console.log(filter)
-    return
   }
 
-  
+  const handleDisplay = (display: DisplayType) => {
+    setDisplayList(display) 
+  }
+
+  console.log(displayList)
   //TODO: some flexbox or grid
   //FIXME: hover state not working anywhere, madness
   return (
@@ -55,10 +60,11 @@ const Home: NextPage = () => {
         <h1 className='text-white text-5xl text-center font-extrabold'>Todo App</h1>
       </div>
       <Filter categories={categories.data} filtering={handleFilter}/>
-      <Display />
+      <Display displaying={handleDisplay}/>
       <div className='overflow-auto my-4'>
         {
-          todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories}/>)
+          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories}/>)
+           : 'Categories'
         }
       </div>
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
