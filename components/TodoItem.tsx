@@ -62,7 +62,7 @@ const TodoItem = (props: TodoProps) => {
 
 
   return (
-    <div className='bg-slate-700 text-white shadow-md rounded-md mx-3 my-3 px-3 py-3'>
+    <div className='bg-slate-700 text-white shadow-md rounded-md my-3 px-3 py-3'>
       <div className='flex flex-row p-2 mx-2'>
         <div className='grow'>
           <h4 className={`text-lg font-bold ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>
