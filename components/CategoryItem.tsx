@@ -14,7 +14,7 @@ const CategoryItem = (props: CategoryProps) => {
 
 
     const delMut = useMutation((id: number) => {
-        return axios.post(`/api/category/delete/${id}`)
+        return axios.delete(`/api/category/delete/${id}`)
     }, {
         onSuccess: () => {
             queryClient.invalidateQueries(['categories'])
