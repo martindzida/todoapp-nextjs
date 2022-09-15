@@ -65,6 +65,14 @@ const Home: NextPage = () => {
     setOpenModal(false)
   }
 
+  const handleCloseForm = () => {
+    toggleAddTodo(false)
+  }
+
+  const handleCloseCategoryForm = () => {
+    toggleAddCategory(false)
+  }
+
 
     //TODO: openModal => brightness-50
   //TODO: some flexbox or grid
@@ -88,13 +96,13 @@ const Home: NextPage = () => {
       </div>
       {openModal && <Modal closeModal={handleCloseModal}/>}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal(true)}>Open Modal</button>
-      {todoEditId !== null && <TodoForm method='edit' categories={categories.data} defaultTodo={findTodoById(todoEditId, todos.data)}/>}
+      {todoEditId !== null && <TodoForm method='edit' categories={categories.data} defaultTodo={findTodoById(todoEditId, todos.data)} closeForm={handleCloseForm} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
         toggleAddTodo(!addTodo) }}>Add Todo</button>
-      {addTodo && <TodoForm method='add' categories={categories.data}/>}
+      {addTodo && <TodoForm method='add' categories={categories.data} closeForm={handleCloseForm} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => {
         toggleAddCategory(!addCategory) }}>Add Category</button>
-      {addCategory && <CategoryForm />}
+      {addCategory && <CategoryForm closeForm={handleCloseCategoryForm}/>}
     </div>
   )
 }
