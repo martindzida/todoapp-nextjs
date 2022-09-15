@@ -13,6 +13,7 @@ import { DisplayType } from '../components/Display'
 import CategoryItem from '../components/CategoryItem'
 import CategoryForm from '../components/CategoryForm'
 import { Todo } from '@prisma/client'
+import Modal from '../components/Modal'
 
 
 const Home: NextPage = () => {
@@ -22,6 +23,7 @@ const Home: NextPage = () => {
   const [ displayList, setDisplayList ] = useState<DisplayType>('Todos')
   const [ filterOptions, setFilterOptions ] = useState<FilterParams>()
   const [ todoEditId, setTodoEditId ] = useState<number | null>(null)
+  const [ openModal, setOpenModal ] = useState(false)
 
   const todos = useAllTodos()
   const categories = useAllCategories()
@@ -59,6 +61,12 @@ const Home: NextPage = () => {
     return ts.filter((t: Todo) => t.id === id)
   }
 
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
+
+    //TODO: openModal => brightness-50
   //TODO: some flexbox or grid
   return (
     <div className='h-screen w-screen bg-slate-600 flex flex-col px-4 pt-4 pb-9'>
@@ -78,6 +86,8 @@ const Home: NextPage = () => {
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos}/>)
         }
       </div>
+      {openModal && <Modal closeModal={handleCloseModal}/>}
+      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal(true)}>Open Modal</button>
       {todoEditId !== null && <TodoForm method='edit' categories={categories.data} defaultTodo={findTodoById(todoEditId, todos.data)}/>}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
         toggleAddTodo(!addTodo) }}>Add Todo</button>

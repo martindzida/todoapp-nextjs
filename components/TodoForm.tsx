@@ -61,8 +61,6 @@ const TodoForm = (props: Props) => {
   }
 
 
-  console.log(props.defaultTodo)
-
   return (
     <div className='bg-slate-700 text-center shadow-md rounded-md my-3 px-2 py-3' >
         <h3 className='text-white text-xl font-bold p-2 my-2'>{props.method === 'add' ? 'Add Todo' : 'Edit Todo'}</h3>
@@ -79,7 +77,7 @@ const TodoForm = (props: Props) => {
             </select>
             <label htmlFor="deadline" className='text-white'>Deadline</label>
             <input {...register('deadline', {required: true, valueAsDate: true})} id='deadline' name='deadline' type="date" className='bg-rose-500 text-white outline-none cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
-            <input type="submit" value="Add" className='bg-rose-500 text-white cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
+            <input type="submit" value={props.method === 'add' ? 'Add' : 'Edit'} className='bg-rose-500 text-white cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
         </form>
     </div>
   )
