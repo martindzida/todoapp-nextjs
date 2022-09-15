@@ -11,12 +11,17 @@ import { FilterParams } from '../components/Filter'
 import Display from '../components/Display'
 import { DisplayType } from '../components/Display'
 import CategoryItem from '../components/CategoryItem'
+import CategoryForm from '../components/CategoryForm'
+import { Todo } from '@prisma/client'
 
 
 const Home: NextPage = () => {
 
-  const [ addForm, toggleAddForm ] = useState(false)
+  const [ addTodo, toggleAddTodo ] = useState(false)
+  const [ addCategory, toggleAddCategory ] = useState(false)
   const [ displayList, setDisplayList ] = useState<DisplayType>('Todos')
+  const [ filterOptions, setFilterOptions ] = useState<FilterParams>()
+  const [ todoEditId, setTodoEditId ] = useState<number | null>(null)
 
   const todos = useAllTodos()
   const categories = useAllCategories()
@@ -39,16 +44,22 @@ const Home: NextPage = () => {
   }
 
   const handleFilter = (filter: FilterParams) => {
-    //TODO: useQuery with filter and display
-    console.log(filter)
+    setFilterOptions(filter)
   }
 
   const handleDisplay = (display: DisplayType) => {
     setDisplayList(display) 
   }
 
+  const handleEdit = (id: number) => {
+    setTodoEditId(id)
+  }
+
+  const findTodoById = (id:number, ts: Todo[]) => {
+    return ts.filter((t: Todo) => t.id === id)
+  }
+
   //TODO: some flexbox or grid
-  //FIXME: hover state not working anywhere, madness
   return (
     <div className='h-screen w-screen bg-slate-600 flex flex-col px-4 pt-4 pb-9'>
       <Head>
@@ -63,15 +74,17 @@ const Home: NextPage = () => {
       <Display displaying={handleDisplay}/>
       <div className='overflow-auto my-4'>
         {
-          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories}/>)
+          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories} handleEdit={handleEdit}/>)
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos}/>)
         }
       </div>
+      {todoEditId !== null && <TodoForm method='edit' categories={categories.data} defaultTodo={findTodoById(todoEditId, todos.data)}/>}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
-        toggleAddForm(!addForm) }}>Add Todo</button>
-      {addForm && <TodoForm />}
+        toggleAddTodo(!addTodo) }}>Add Todo</button>
+      {addTodo && <TodoForm method='add' categories={categories.data}/>}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => {
-        toggleAddForm(!addForm) }}>Add Category</button>
+        toggleAddCategory(!addCategory) }}>Add Category</button>
+      {addCategory && <CategoryForm />}
     </div>
   )
 }

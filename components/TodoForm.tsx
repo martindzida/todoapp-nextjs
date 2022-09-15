@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../pages/_app'
 import { Category } from '@prisma/client'
+import { Todo } from '@prisma/client'
 
 
 enum Priority {
@@ -12,7 +13,8 @@ enum Priority {
   Important
 }
 
-interface CategoryProp {
+//TODO: Picking categories 
+interface CategoryProps {
   id: number,
   name: string
 }
@@ -21,13 +23,19 @@ interface TodoFormProps {
   description?: string,
   priority?: Priority,
   deadline: Date,
-  categories?: CategoryProp[]
-
 }
 
-const TodoForm = () => {
+interface Props {
+  method: 'add' | 'edit',
+  categories: Category[],
+  defaultTodo?: Todo[]
+}
+
+
+const TodoForm = (props: Props) => {
   const { register, handleSubmit, formState: { errors }} = useForm<TodoFormProps>()
-  const mutation = useMutation((newTodo: TodoFormProps) => {
+
+  const addTodo = useMutation((newTodo: TodoFormProps) => {
     return axios.post('/api/todo/create', newTodo)
   }, {
     onSuccess: () => {
@@ -35,14 +43,29 @@ const TodoForm = () => {
     }
   })
 
+  const updTodo = useMutation((editTodo: TodoFormProps) => {
+    return axios.put('/api/todo/put', editTodo)
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['todos'])
+    }
+  })
+
   const submitForm = (data: TodoFormProps) => {
-    mutation.mutate(data)
+    if (props.method === 'add') {
+      addTodo.mutate(data)
+    }
+    if (props.method === 'edit') {
+      updTodo.mutate(data)
+    }
   }
 
 
+  console.log(props.defaultTodo)
+
   return (
     <div className='bg-slate-700 text-center shadow-md rounded-md my-3 px-2 py-3' >
-        <h3 className='text-white text-xl font-bold p-2 my-2'>Add Todo</h3>
+        <h3 className='text-white text-xl font-bold p-2 my-2'>{props.method === 'add' ? 'Add Todo' : 'Edit Todo'}</h3>
         <form onSubmit={handleSubmit(submitForm)} className='flex flex-col'>
             <input {...register('name', {required: "Name required", maxLength: {value: 64, message: "Name is too long"}})} name='name' type="text" placeholder='Name' className='focus-visible:outline focus-visible:outline-2 focus:outline-rose-500 rounded-md p-2 mx-3 my-2' />
             {errors.name && <small className='text-white'>{errors.name.message}</small>}

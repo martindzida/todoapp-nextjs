@@ -8,7 +8,7 @@ import Spinner from './Spinner'
 
 
 //TODO: should be more consistent, in other components using interface for props
-export type TodoProps = Todo & {categories: Category[] | []}
+export type TodoProps = Todo & {categories: Category[] | [], handleEdit: (id: number) => void}
 
 const TodoItem = (props: TodoProps) => {
 
@@ -28,18 +28,9 @@ const TodoItem = (props: TodoProps) => {
     }
   })
 
-  const updMut = useMutation((id: number) => {
-    return axios.put(`/api/todo/put/${id}`)
-  })
-
   //FIXME: id might be completely useless
   const delTodo = (id: number) => {
     delMut.mutate(id)
-  }
-
-  //FIXME: must pass data to req.body
-  const updTodo = (id: number) => {
-    updMut.mutate(id)
   }
 
 
@@ -88,9 +79,9 @@ const TodoItem = (props: TodoProps) => {
         </div>
         <div className='flex-none flex justify-end'>
           <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
-            updTodo(props.id)
+            props.handleEdit(props.id)
           }}>
-            {updMut.isLoading ? <Spinner /> : <PencilSquareIcon className='w-5 h-5' />}
+            <PencilSquareIcon className='w-5 h-5' />
           </button>
         </div>
         <div className='flex-none flex justify-end'>

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BarsArrowDownIcon, BarsArrowUpIcon, FunnelIcon } from '@heroicons/react/24/solid'
 import { useForm } from 'react-hook-form'
 import { Category } from '@prisma/client'
 
 
 export interface FilterParams {
-  categoryId: number,
   byDate: 'Latest' | 'Oldest'
+  byCategory: string
 }
 interface FilterProps {
   categories: Category[],
@@ -18,7 +18,7 @@ const Filter = (props: FilterProps) => {
   const { register, handleSubmit, watch } = useForm()
 
   const submitForm = (data: any) => {
-    props.filtering(data.filter)
+    props.filtering(data)
   }
 
   const sortDate = watch('byDate', 'Latest')
