@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../pages/_app'
-import { Category } from '@prisma/client'
-import { Todo } from '@prisma/client'
+import { Category, Todo } from '@prisma/client'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 
 

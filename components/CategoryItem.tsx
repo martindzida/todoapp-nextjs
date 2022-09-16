@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { queryClient } from '../pages/_app'
 
-export type CategoryProps = Category & {todos: Todo[] | []}
+export type CategoryProps = Category & {todos: Todo[] | [], handleEdit: (id: number) => void}
 
 
 const CategoryItem = (props: CategoryProps) => {
@@ -56,7 +56,7 @@ const CategoryItem = (props: CategoryProps) => {
         </div>
         <div className='flex-none flex justify-end'>
           <button className='bg-rose-500 hover:bg-rose-600 text-white rounded-md mx-1 p-2' onClick={() => {
-            updCat(props.id)
+            props.handleEdit(props.id)
           }}>
             {updMut.isLoading ? <Spinner /> : <PencilSquareIcon className='w-5 h-5' />}
           </button>

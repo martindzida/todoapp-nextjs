@@ -54,12 +54,14 @@ const Home: NextPage = () => {
   }
 
   //FIXME: close edit form
-  const handleEdit = (id: number) => {
+  const handleTodoEdit = (id: number) => {
     setTodoEditId(id)
+    setOpenModal('editTodo')
   }
 
   const handleCategoryEdit = (id: number) => {
     setTodoEditId(id)
+    setOpenModal('editCategory')
   }
 
   const findTodoById = (id:number, ts: Todo[]) => {
@@ -85,16 +87,17 @@ const Home: NextPage = () => {
       <Display displaying={handleDisplay}/>
       <div className='overflow-auto my-4'>
         {
-          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories} handleEdit={handleEdit}/>)
-           : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos}/>)
+          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories} handleEdit={handleTodoEdit} />)
+           : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos} handleEdit={handleCategoryEdit} />)
         }
       </div>
-      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('addTodo')}>Open Modal</button>
+      {openModal === 'editTodo' && <Modal type={openModal} closeModal={handleCloseModal} />}
+      {openModal === 'editCategory' && <Modal type={openModal}  closeModal={handleCloseModal} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
         setOpenModal('addTodo') }}>Add Todo</button>
-      {openModal === 'addTodo' && <Modal closeModal={handleCloseModal}/>}
+      {openModal === 'addTodo' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('addCategory')}>Add Category</button>
-      {openModal === 'addCategory' && <Modal closeModal={handleCloseModal}/>}
+      {openModal === 'addCategory' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
     </div>
   )
 }
