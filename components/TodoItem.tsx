@@ -1,7 +1,7 @@
 import React from 'react'
 import { Todo, Category } from '@prisma/client'
 import { Mutation, useMutation } from '@tanstack/react-query'
-import { XMarkIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon, PencilSquareIcon, CheckIcon } from '@heroicons/react/24/solid'
 import axios from 'axios'
 import { queryClient } from '../pages/_app'
 import Spinner from './Spinner'
@@ -52,6 +52,7 @@ const TodoItem = (props: TodoProps) => {
   }
 
 
+  //TODO: Check icon, remove done
   return (
     <div className='bg-slate-700 text-white shadow-md rounded-md my-3 px-3 py-3'>
       <div className='flex flex-row p-2 mx-2'>

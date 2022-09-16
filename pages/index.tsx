@@ -56,12 +56,12 @@ const Home: NextPage = () => {
   //FIXME: close edit form
   const handleTodoEdit = (id: number) => {
     setTodoEditId(id)
-    setOpenModal('editTodo')
+    setOpenModal('Edit Todo')
   }
 
   const handleCategoryEdit = (id: number) => {
     setTodoEditId(id)
-    setOpenModal('editCategory')
+    setOpenModal('Edit Category')
   }
 
   const findTodoById = (id:number, ts: Todo[]) => {
@@ -91,13 +91,13 @@ const Home: NextPage = () => {
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos} handleEdit={handleCategoryEdit} />)
         }
       </div>
-      {openModal === 'editTodo' && <Modal type={openModal} closeModal={handleCloseModal} />}
-      {openModal === 'editCategory' && <Modal type={openModal}  closeModal={handleCloseModal} />}
+      {openModal === 'Edit Todo' && <Modal type={openModal} closeModal={handleCloseModal} />}
+      {openModal === 'Edit Category' && <Modal type={openModal}  closeModal={handleCloseModal} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
-        setOpenModal('addTodo') }}>Add Todo</button>
-      {openModal === 'addTodo' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
-      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('addCategory')}>Add Category</button>
-      {openModal === 'addCategory' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
+        setOpenModal('Add Todo') }}>Add Todo</button>
+      {openModal === 'Add Todo' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
+      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('Add Category')}>Add Category</button>
+      {openModal === 'Add Category' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
     </div>
   )
 }
