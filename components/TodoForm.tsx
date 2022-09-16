@@ -26,7 +26,7 @@ interface TodoFormProps {
   deadline: Date,
 }
 
-interface Props {
+export interface Props {
   method: 'add' | 'edit',
   categories: Category[],
   defaultTodo?: Todo[]

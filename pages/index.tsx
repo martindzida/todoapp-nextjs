@@ -14,16 +14,16 @@ import CategoryItem from '../components/CategoryItem'
 import CategoryForm from '../components/CategoryForm'
 import { Todo } from '@prisma/client'
 import Modal from '../components/Modal'
+import { modalTypes } from '../components/Modal'
 
 
 const Home: NextPage = () => {
 
-  const [ addTodo, toggleAddTodo ] = useState(false)
-  const [ addCategory, toggleAddCategory ] = useState(false)
   const [ displayList, setDisplayList ] = useState<DisplayType>('Todos')
   const [ filterOptions, setFilterOptions ] = useState<FilterParams>()
   const [ todoEditId, setTodoEditId ] = useState<number | null>(null)
-  const [ openModal, setOpenModal ] = useState(false)
+  const [ categoryEditId, setCategoryEditId ] = useState<number | null>(null)
+  const [ openModal, setOpenModal ] = useState<modalTypes>(null)
 
   const todos = useAllTodos()
   const categories = useAllCategories()
@@ -58,25 +58,19 @@ const Home: NextPage = () => {
     setTodoEditId(id)
   }
 
+  const handleCategoryEdit = (id: number) => {
+    setTodoEditId(id)
+  }
+
   const findTodoById = (id:number, ts: Todo[]) => {
     return ts.filter((t: Todo) => t.id === id)
   }
 
   const handleCloseModal = () => {
-    setOpenModal(false)
-  }
-
-  const handleCloseForm = () => {
-    toggleAddTodo(false)
-  }
-
-  const handleCloseCategoryForm = () => {
-    toggleAddCategory(false)
+    setOpenModal(null)
   }
 
 
-    //TODO: openModal => brightness-50
-  //TODO: some flexbox or grid
   return (
     <div className='h-screen w-screen bg-slate-600 flex flex-col px-4 pt-4 pb-9'>
       <Head>
@@ -95,15 +89,12 @@ const Home: NextPage = () => {
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos}/>)
         }
       </div>
-      {openModal && <Modal closeModal={handleCloseModal}/>}
-      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal(true)}>Open Modal</button>
-      {todoEditId !== null && <TodoForm method='edit' categories={categories.data} defaultTodo={findTodoById(todoEditId, todos.data)} closeForm={handleCloseForm} />}
+      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('addTodo')}>Open Modal</button>
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
-        toggleAddTodo(!addTodo) }}>Add Todo</button>
-      {addTodo && <TodoForm method='add' categories={categories.data} closeForm={handleCloseForm} />}
-      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => {
-        toggleAddCategory(!addCategory) }}>Add Category</button>
-      {addCategory && <CategoryForm closeForm={handleCloseCategoryForm}/>}
+        setOpenModal('addTodo') }}>Add Todo</button>
+      {openModal === 'addTodo' && <Modal closeModal={handleCloseModal}/>}
+      <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('addCategory')}>Add Category</button>
+      {openModal === 'addCategory' && <Modal closeModal={handleCloseModal}/>}
     </div>
   )
 }
