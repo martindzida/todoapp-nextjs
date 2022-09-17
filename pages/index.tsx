@@ -13,9 +13,11 @@ import { DisplayType } from '../components/Display'
 import CategoryItem from '../components/CategoryItem'
 import CategoryForm from '../components/CategoryForm'
 import { Todo } from '@prisma/client'
-import Modal from '../components/Modal'
-import { modalTypes } from '../components/Modal'
+import TodoModal from '../components/TodoModal'
+import CategoryModal from '../components/CategoryModal'
 
+//FIXME: For now, should be defined somewhere else
+type modalTypes = 'Add Todo' | 'Add Category' | 'Edit Todo' | 'Edit Category' | null
 
 const Home: NextPage = () => {
 
@@ -65,13 +67,12 @@ const Home: NextPage = () => {
   }
 
   const findTodoById = (id:number, ts: Todo[]) => {
-    return ts.filter((t: Todo) => t.id === id)
+    return ts.filter((t: Todo) => t.id === id)[0]
   }
 
   const handleCloseModal = () => {
     setOpenModal(null)
   }
-
 
   return (
     <div className='h-screen w-screen bg-slate-600 flex flex-col px-4 pt-4 pb-9'>
@@ -91,13 +92,13 @@ const Home: NextPage = () => {
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos} handleEdit={handleCategoryEdit} />)
         }
       </div>
-      {openModal === 'Edit Todo' && <Modal type={openModal} closeModal={handleCloseModal} />}
-      {openModal === 'Edit Category' && <Modal type={openModal}  closeModal={handleCloseModal} />}
+      {openModal === 'Edit Todo' && <TodoModal payload={{method: 'Edit', categories: categories.data, closeForm: handleCloseModal}} />}
+      {openModal === 'Edit Category' && <CategoryModal payload={{method: 'Edit', todos: todos.data, closeForm: handleCloseModal}} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
         setOpenModal('Add Todo') }}>Add Todo</button>
-      {openModal === 'Add Todo' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
+      {openModal === 'Add Todo' && <TodoModal payload={{method: 'Add', categories: categories.data, closeForm: handleCloseModal}} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('Add Category')}>Add Category</button>
-      {openModal === 'Add Category' && <Modal type={openModal}  closeModal={handleCloseModal}/>}
+      {openModal === 'Add Category' && <CategoryModal payload={{method: 'Add', todos: todos.data, closeForm: handleCloseModal}} />}
     </div>
   )
 }

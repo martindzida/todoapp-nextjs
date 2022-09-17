@@ -9,9 +9,9 @@ import { Category, Todo } from '@prisma/client'
 
 
 export interface Props {
-  method: 'add' | 'edit',
+  method: 'Add' | 'Edit',
   todos: Todo[],
-  defaultCategory?: Category[],
+  defaultCategory?: Category,
   closeForm: () => void
 }
 

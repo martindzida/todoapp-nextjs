@@ -26,9 +26,9 @@ interface TodoFormProps {
 }
 
 export interface Props {
-  method: 'add' | 'edit',
+  method: 'Add' | 'Edit',
   categories: Category[],
-  defaultTodo?: Todo[]
+  defaultTodo?: Todo,
   closeForm: () => void
 }
 
@@ -53,10 +53,10 @@ const TodoForm = (props: Props) => {
   })
 
   const submitForm = (data: TodoFormProps) => {
-    if (props.method === 'add') {
+    if (props.method === 'Add') {
       addTodo.mutate(data)
     }
-    if (props.method === 'edit') {
+    if (props.method === 'Edit') {
       updTodo.mutate(data)
     }
   }
@@ -69,7 +69,7 @@ const TodoForm = (props: Props) => {
             <XMarkIcon className='w-5 h-5 text-white'/>
           </button>
         </div>
-        <h3 className='text-white text-xl font-bold p-2 my-2'>{props.method === 'add' ? 'Add Todo' : 'Edit Todo'}</h3>
+        <h3 className='text-white text-xl font-bold p-2 my-2'>{props.method === 'Add' ? 'Add Todo' : 'Edit Todo'}</h3>
         <form onSubmit={handleSubmit(submitForm)} className='flex flex-col'>
             <input {...register('name', {required: "Name required", maxLength: {value: 64, message: "Name is too long"}})} name='name' type="text" placeholder='Name' className='focus-visible:outline focus-visible:outline-2 focus:outline-rose-500 rounded-md p-2 mx-3 my-2' />
             {errors.name && <small className='text-white'>{errors.name.message}</small>}
@@ -83,7 +83,7 @@ const TodoForm = (props: Props) => {
             </select>
             <label htmlFor="deadline" className='text-white'>Deadline</label>
             <input {...register('deadline', {required: true, valueAsDate: true})} id='deadline' name='deadline' type="date" className='bg-rose-500 text-white outline-none cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
-            <input type="submit" value={props.method === 'add' ? 'Add' : 'Edit'} className='bg-rose-500 text-white cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
+            <input type="submit" value={props.method === 'Add' ? 'Add' : 'Edit'} className='bg-rose-500 text-white cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
         </form>
     </div>
   )

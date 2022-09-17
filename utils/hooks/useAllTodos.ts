@@ -3,8 +3,6 @@ import axios from "axios"
 
 const fetchTodos = () => axios.get('/api/todos').then(res => res.data)
 
-const useAllTodos = () => {
-    return useQuery(['todos'], fetchTodos)
-}
+const useAllTodos = () => useQuery(['todos'], fetchTodos)
 
 export default useAllTodos
