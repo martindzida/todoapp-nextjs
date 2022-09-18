@@ -36,7 +36,7 @@ const EditTodoForm = (props: Props) => {
   const { register, handleSubmit, formState: { errors }} = useForm<TodoFormProps>()
 
   const updTodo = useMutation((editTodo: TodoFormProps) => {
-    return axios.put('/api/todo/put', editTodo)
+    return axios.put(`/api/todo/put/${props.defaultTodo.id}`, editTodo)
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries(['todos'])
@@ -47,7 +47,7 @@ const EditTodoForm = (props: Props) => {
     updTodo.mutate(data)
   }
 
-
+  console.log(props)
   return (
     <div className='bg-slate-700 text-center shadow-md rounded-md my-3 px-2 py-3' >
         <div className='flex flex-row justify-end'>

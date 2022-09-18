@@ -23,7 +23,7 @@ const EditCategoryForm = (props: Props) => {
   const { register, handleSubmit, formState: { errors }} = useForm<CategoryFormProps>()
 
   const mutation = useMutation((newCategory: CategoryFormProps) => {
-    return axios.post('/api/category/create', newCategory)
+    return axios.put(`/api/category/put/${props.defaultCategory.id}`, newCategory)
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries(['categories'])

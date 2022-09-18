@@ -14,7 +14,6 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
     }
     
     const { name, description } = req.body
-    //TODO: done might be updated as well
 
     const delTodo = await prisma.category.update({
         where: {

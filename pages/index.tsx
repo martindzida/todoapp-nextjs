@@ -54,14 +54,13 @@ const Home: NextPage = () => {
     setDisplayList(display) 
   }
 
-  //FIXME: close edit form
   const handleTodoEdit = (id: number) => {
     setTodoEditId(id)
     setOpenModal('Edit Todo')
   }
 
   const handleCategoryEdit = (id: number) => {
-    setTodoEditId(id)
+    setCategoryEditId(id)
     setOpenModal('Edit Category')
   }
 
@@ -91,7 +90,7 @@ const Home: NextPage = () => {
       <Display displaying={handleDisplay}/>
       <div className='overflow-auto my-4'>
         {
-          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} done={t.done} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories} handleEdit={handleTodoEdit} />)
+          displayList === 'Todos' ? todos.data.map((t: TodoProps) => <TodoItem key={t.id} id={t.id} name={t.name} description={t.description} priority={t.priority} deadline={t.deadline} createdAt={t.createdAt} updatedAt={t.updatedAt} categories={t.categories} handleEdit={handleTodoEdit} />)
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos} handleEdit={handleCategoryEdit} />)
         }
       </div>

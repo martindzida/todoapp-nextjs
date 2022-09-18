@@ -14,7 +14,6 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
     }
     
     const { name, description, priority, deadline } = req.body
-    //TODO: done might be updated as well
 
     const delTodo = await prisma.todo.update({
         where: {
