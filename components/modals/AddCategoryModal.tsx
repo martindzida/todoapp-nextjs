@@ -1,21 +1,17 @@
 import React from 'react'
-import AddTodoForm from './EditTodoForm'
-import EditTodoForm from './EditTodoForm'
-import { Props as TodoFormProps } from './AddTodoForm'
-import { Props as CategoryFormProps } from './AddCategoryForm'
+import AddCategoryForm from '../forms/AddCategoryForm'
+import { Props as AddCategoryProps } from '../forms/AddCategoryForm'
 
 
 export type modalType = 'Add Todo' | 'Add Category' | 'Edit Todo' | 'Edit Category' | null
-type payloadType = TodoFormProps | CategoryFormProps 
 
 interface Props {
   type: modalType
-  payload: payloadType
-  closeModal: () => void
+  payload: AddCategoryProps
 }
 
+const AddCategoryModal = (props: Props) => { 
 
-const Modal = (props: Props) => {
   return (
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-slate-800 bg-opacity-75 transition-opacity"></div>
@@ -23,6 +19,7 @@ const Modal = (props: Props) => {
       <div className="fixed inset-0 z-10 overflow-y-auto">
         <div className="flex min-h-full items-center justify-center">
           <div className="relative transform overflow-hidden rounded-lg shadow-xl transition-all">
+            <AddCategoryForm todos={props.payload.todos} closeForm={props.payload.closeForm}/>
           </div>
         </div>
       </div>
@@ -30,4 +27,4 @@ const Modal = (props: Props) => {
   )
 }
 
-export default Modal
+export default AddCategoryModal

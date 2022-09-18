@@ -11,8 +11,11 @@ import Display from '../components/Display'
 import { DisplayType } from '../components/Display'
 import CategoryItem from '../components/CategoryItem'
 import { Todo, Category } from '@prisma/client'
-import Modal from '../components/Modal'
-import { modalType } from '../components/Modal'
+import EditTodoModal from '../components/modals/EditTodoModal'
+import EditCategoryModal from '../components/modals/EditCategoryModal'
+import AddTodoModal from '../components/modals/AddTodoModal'
+import AddCategoryModal from '../components/modals/AddCategoryModal'
+import { modalType } from '../components/modals/EditCategoryModal'
 
 
 const Home: NextPage = () => {
@@ -92,13 +95,13 @@ const Home: NextPage = () => {
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos} handleEdit={handleCategoryEdit} />)
         }
       </div>
-      {openModal === 'Edit Todo' && <Modal type={openModal} closeModal={handleCloseModal} />}
-      {openModal === 'Edit Category' && <Modal type={openModal} closeModal={handleCloseModal} />}
+      {openModal === 'Edit Todo' && <EditTodoModal type={openModal} payload={{categories: categories.data, defaultTodo: getTodoById(todoEditId, todos.data), closeForm:handleCloseModal}} />}
+      {openModal === 'Edit Category' && <EditCategoryModal type={openModal} payload={{todos: todos.data, defaultCategory: getCategoryById(categoryEditId, categories.data), closeForm:handleCloseModal}} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
         setOpenModal('Add Todo') }}>Add Todo</button>
-      {openModal === 'Add Todo' && <Modal type={openModal} closeModal={handleCloseModal} />}
+      {openModal === 'Add Todo' && <AddTodoModal type={openModal} payload={{categories: categories.data, closeForm:handleCloseModal}} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('Add Category')}>Add Category</button>
-      {openModal === 'Add Category' && <Modal type={openModal} closeModal={handleCloseModal} />}
+      {openModal === 'Add Category' && <AddCategoryModal type={openModal} payload={{todos: todos.data, closeForm:handleCloseModal}} />}
     </div>
   )
 }
