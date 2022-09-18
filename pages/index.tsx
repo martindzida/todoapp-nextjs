@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import TodoItem from '../components/TodoItem'
-import TodoForm from '../components/TodoForm'
 import { TodoProps } from '../components/TodoItem'
 import { useState } from 'react'
 import Filter from '../components/Filter'
@@ -11,21 +10,18 @@ import { FilterParams } from '../components/Filter'
 import Display from '../components/Display'
 import { DisplayType } from '../components/Display'
 import CategoryItem from '../components/CategoryItem'
-import CategoryForm from '../components/CategoryForm'
-import { Todo } from '@prisma/client'
-import TodoModal from '../components/TodoModal'
-import CategoryModal from '../components/CategoryModal'
+import { Todo, Category } from '@prisma/client'
+import Modal from '../components/Modal'
+import { modalType } from '../components/Modal'
 
-//FIXME: For now, should be defined somewhere else
-type modalTypes = 'Add Todo' | 'Add Category' | 'Edit Todo' | 'Edit Category' | null
 
 const Home: NextPage = () => {
 
   const [ displayList, setDisplayList ] = useState<DisplayType>('Todos')
   const [ filterOptions, setFilterOptions ] = useState<FilterParams>()
-  const [ todoEditId, setTodoEditId ] = useState<number | null>(null)
-  const [ categoryEditId, setCategoryEditId ] = useState<number | null>(null)
-  const [ openModal, setOpenModal ] = useState<modalTypes>(null)
+  const [ todoEditId, setTodoEditId ] = useState<number>(-1)
+  const [ categoryEditId, setCategoryEditId ] = useState<number>(-1)
+  const [ openModal, setOpenModal ] = useState<modalType>(null)
 
   const todos = useAllTodos()
   const categories = useAllCategories()
@@ -41,7 +37,7 @@ const Home: NextPage = () => {
 
   if (todos.error || categories.error) {
       return (
-        <div className='h-screen w-screen bg-slate-600 flex flex-col items-center justify-center'>
+        <div className={`${openModal ? 'overflow-hidden' : ''} h-screen w-screen bg-slate-600 flex flex-col items-center justify-center`}>
           <h2 className='text-4xl font-extrabold text-white text-center'>Error</h2>
         </div>
       )
@@ -66,8 +62,12 @@ const Home: NextPage = () => {
     setOpenModal('Edit Category')
   }
 
-  const findTodoById = (id:number, ts: Todo[]) => {
+  const getTodoById = (id:number, ts: Todo[]) => {
     return ts.filter((t: Todo) => t.id === id)[0]
+  }
+
+  const getCategoryById = (id:number, cs: Category[]) => {
+    return cs.filter((c: Category) => c.id === id)[0]
   }
 
   const handleCloseModal = () => {
@@ -92,13 +92,13 @@ const Home: NextPage = () => {
            : categories.data.map((c: any) => <CategoryItem key={c.id} id={c.id} name={c.name} description={c.description} createdAt={c.createdAt} updatedAt={c.updatedAt} todos={c.todos} handleEdit={handleCategoryEdit} />)
         }
       </div>
-      {openModal === 'Edit Todo' && <TodoModal payload={{method: 'Edit', categories: categories.data, closeForm: handleCloseModal}} />}
-      {openModal === 'Edit Category' && <CategoryModal payload={{method: 'Edit', todos: todos.data, closeForm: handleCloseModal}} />}
+      {openModal === 'Edit Todo' && <Modal type={openModal} closeModal={handleCloseModal} />}
+      {openModal === 'Edit Category' && <Modal type={openModal} closeModal={handleCloseModal} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg my-2 p-2' onClick={() => {
         setOpenModal('Add Todo') }}>Add Todo</button>
-      {openModal === 'Add Todo' && <TodoModal payload={{method: 'Add', categories: categories.data, closeForm: handleCloseModal}} />}
+      {openModal === 'Add Todo' && <Modal type={openModal} closeModal={handleCloseModal} />}
       <button className='bg-rose-500 hover:bg-rose-600 text-white text-lg rounded-md shadow-lg p-2' onClick={() => setOpenModal('Add Category')}>Add Category</button>
-      {openModal === 'Add Category' && <CategoryModal payload={{method: 'Add', todos: todos.data, closeForm: handleCloseModal}} />}
+      {openModal === 'Add Category' && <Modal type={openModal} closeModal={handleCloseModal} />}
     </div>
   )
 }

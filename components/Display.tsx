@@ -17,12 +17,11 @@ const Display = (props: DisplayProps) => {
 
   return (
     <div className='flex justify-end text-white rounded-md p-2'>
-        <form onSubmit={handleSubmit(submitForm)}>
+        <form onChange={handleSubmit(submitForm)}>
             <select {...register('display')} name="display" id="display" className='bg-rose-500 text-white text-center cursor-pointer rounded-md p-3'>
                 <option value="Todos">Todos</option>
                 <option value="Categories">Categories</option>
             </select>
-            <input type="submit" value="Display" className='bg-rose-500 text-white cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
         </form>
     </div>
   )

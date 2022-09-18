@@ -4,14 +4,12 @@ import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../pages/_app'
 import axios from 'axios'
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { Category, Todo } from '@prisma/client'
+import { Todo } from '@prisma/client'
 
 
 
 export interface Props {
-  method: 'Add' | 'Edit',
   todos: Todo[],
-  defaultCategory?: Category,
   closeForm: () => void
 }
 
