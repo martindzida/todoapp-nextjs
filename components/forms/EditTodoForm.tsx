@@ -20,7 +20,7 @@ interface CategoryProps {
 }
 interface TodoFormProps {
   name: string,
-  description?: string,
+  description?: string | null,
   priority?: Priority,
   deadline: Date,
 }
@@ -33,7 +33,12 @@ export interface Props {
 
 
 const EditTodoForm = (props: Props) => { 
-  const { register, handleSubmit, formState: { errors }} = useForm<TodoFormProps>()
+  //FIXME: default priority type not coresponding
+  const { register, handleSubmit, formState: { errors }} = useForm<TodoFormProps>({defaultValues: {
+    name: props.defaultTodo.name,
+    description: props.defaultTodo.description,
+    deadline: props.defaultTodo.deadline
+  }})
 
   const updTodo = useMutation((editTodo: TodoFormProps) => {
     return axios.put(`/api/todo/put/${props.defaultTodo.id}`, editTodo)
@@ -55,7 +60,7 @@ const EditTodoForm = (props: Props) => {
             <XMarkIcon className='w-5 h-5 text-white'/>
           </button>
         </div>
-        <h3 className='text-white text-xl font-bold p-2 my-2'>Edit Todo</h3>
+        <h3 className='text-white text-2xl font-bold p-3 my-2'>Edit Todo</h3>
         <form onSubmit={handleSubmit(submitForm)} className='flex flex-col'>
             <input {...register('name', {required: "Name required", maxLength: {value: 64, message: "Name is too long"}})} name='name' type="text" placeholder='Name' className='focus-visible:outline focus-visible:outline-2 focus:outline-rose-500 rounded-md p-2 mx-3 my-2' />
             {errors.name && <small className='text-white'>{errors.name.message}</small>}
@@ -69,6 +74,14 @@ const EditTodoForm = (props: Props) => {
             </select>
             <label htmlFor="deadline" className='text-white'>Deadline</label>
             <input {...register('deadline', {required: true, valueAsDate: true})} id='deadline' name='deadline' type="date" className='bg-rose-500 text-white outline-none cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
+            {props.categories.map((c: Category) => {
+              return (
+                <div key={c.id}>
+                  <label className='text-white' htmlFor={c.name}>{c.name}</label>
+                  <input type="checkbox" name={c.name} />
+                </div>
+              )
+            })}
             <input type="submit" value='Edit' className='bg-rose-500 text-white cursor-pointer text-center rounded-md p-2 mx-3 my-2' />
         </form>
     </div>
