@@ -47,29 +47,24 @@ const TodoItem = (props: TodoProps) => {
       break
   }
 
-  if (props.done) {
-    priorityBg = 'bg-blue-600'
-  }
 
-
-  //TODO: Check icon, remove done
   return (
     <div className='bg-slate-700 text-white shadow-md rounded-md my-3 px-3 py-3'>
       <div className='flex flex-row p-2 mx-2'>
         <div className='grow'>
-          <h4 className={`text-lg font-bold ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>
+          <h4 className={'text-lg font-bold '}>
             {props.name}
         </h4>
         </div>
         <div className='flex-none flex justify-end'>
-          <span className={`${priorityBg} text-xs text-center font-semibold rounded-lg px-2 py-1`}>{props.done ? 'Done' : props.priority}</span>
+          <span className={`${priorityBg} text-xs text-center font-semibold rounded-lg px-2 py-1`}>{props.priority}</span>
         </div>
       </div>
       <div className='p-2 mx-2'>
         {formatDate(props.deadline)}
       </div>
       <div className='p-2 mx-2'>
-          <p className={`text-sm ${props.done ? 'line-through decoration-rose-500 decoration-4' : ''}`}>{props.description}</p>
+          <p className={'text-sm'}>{props.description}</p>
       </div>
       <div className='flex flex-row'>
         <div className='grow text-sm font-semibold p-2 mx-2'>

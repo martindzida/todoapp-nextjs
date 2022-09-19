@@ -21,7 +21,7 @@ import { modalType } from '../components/modals/EditCategoryModal'
 const Home: NextPage = () => {
 
   const [ displayList, setDisplayList ] = useState<DisplayType>('Todos')
-  const [ filterOptions, setFilterOptions ] = useState<FilterParams>()
+  const [ filterOptions, setFilterOptions ] = useState<FilterParams>({byDate: 'Desc', byCategory: ''})
   const [ todoEditId, setTodoEditId ] = useState<number>(-1)
   const [ categoryEditId, setCategoryEditId ] = useState<number>(-1)
   const [ openModal, setOpenModal ] = useState<modalType>(null)
@@ -48,6 +48,7 @@ const Home: NextPage = () => {
 
   const handleFilter = (filter: FilterParams) => {
     setFilterOptions(filter)
+    console.log(sortTodos(todos.data))
   }
 
   const handleDisplay = (display: DisplayType) => {
@@ -76,6 +77,12 @@ const Home: NextPage = () => {
     setOpenModal(null)
   }
 
+  const sortTodos = (todos: Todo[]) => {
+    const { byDate, byCategory } = filterOptions
+    console.log(byDate, byCategory)
+
+  }
+  //TODO: solve the filter problem
   return (
     <div className='h-screen w-screen bg-slate-600 flex flex-col px-4 pt-4 pb-9'>
       <Head>
@@ -86,7 +93,6 @@ const Home: NextPage = () => {
       <div className='p-8'>
         <h1 className='text-white text-5xl text-center font-extrabold'>Todo App</h1>
       </div>
-      <Filter categories={categories.data} filtering={handleFilter}/>
       <Display displaying={handleDisplay}/>
       <div className='overflow-auto my-4'>
         {
