@@ -52,7 +52,7 @@ const EditCategoryForm = (props: Props) => {
               return (
                 <div key={t.id}>
                   <label className='text-white' htmlFor={t.name}>{t.name}</label>
-                  <input type="checkbox" name={t.name} />
+                  <input type="checkbox" name={t.name} className='accent-rose-500' />
                 </div>
               )
             })}

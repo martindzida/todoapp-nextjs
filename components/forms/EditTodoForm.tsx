@@ -78,7 +78,7 @@ const EditTodoForm = (props: Props) => {
               return (
                 <div key={c.id}>
                   <label className='text-white' htmlFor={c.name}>{c.name}</label>
-                  <input type="checkbox" name={c.name} />
+                  <input type="checkbox" name={c.name} className='accent-rose-500' />
                 </div>
               )
             })}

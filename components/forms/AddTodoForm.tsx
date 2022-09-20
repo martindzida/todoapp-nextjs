@@ -72,7 +72,7 @@ const AddTodoForm = (props: Props) => {
               return (
                 <div key={c.id}>
                   <label className='text-white p-2' htmlFor={c.name}>{c.name}</label>
-                  <input {...register('categories')} type="checkbox" name={c.name} value={c.name} />
+                  <input {...register('categories')} type="checkbox" name={c.name} value={c.name} className='accent-rose-500' />
                 </div>
               )
             })}
