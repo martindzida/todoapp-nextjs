@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../../pages/_app'
@@ -15,16 +15,12 @@ enum Priority {
 }
 
 //TODO: Picking categories 
-interface CategoryProps {
-  id: number,
-  name: string
-}
 interface TodoFormProps {
   name: string,
   description?: string,
   priority?: Priority,
   deadline: Date,
-  categories: Category[]
+  categories: []
 }
 
 export interface Props {
@@ -34,8 +30,7 @@ export interface Props {
 
 
 const AddTodoForm = (props: Props) => { 
-  const { register, control, handleSubmit, formState: { errors }} = useForm<TodoFormProps>()
-  const { fields, append } = useFieldArray({ control, name: 'categories'})
+  const { register, watch, handleSubmit, formState: { errors }} = useForm<TodoFormProps>()
 
   const addTodo = useMutation((newTodo: TodoFormProps) => {
     return axios.post('/api/todo/create', newTodo)
@@ -47,9 +42,11 @@ const AddTodoForm = (props: Props) => {
 
   const submitForm = (data: TodoFormProps) => {
     addTodo.mutate(data)
+    props.closeForm()
   }
 
   //TODO: Date validation (only future dates)
+  //FIXME: checkbox not working
   return (
     <div className='bg-slate-700 text-center shadow-md rounded-md my-3 px-2 py-3' >
         <div className='flex flex-row justify-end'>
@@ -74,8 +71,8 @@ const AddTodoForm = (props: Props) => {
             {props.categories.map((c: Category) => {
               return (
                 <div key={c.id}>
-                  <label className='text-white' htmlFor={c.name}>{c.name}</label>
-                  <input type="checkbox" name={c.name} />
+                  <label className='text-white p-2' htmlFor={c.name}>{c.name}</label>
+                  <input {...register('categories')} type="checkbox" name={c.name} value={c.name} />
                 </div>
               )
             })}

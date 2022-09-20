@@ -79,9 +79,8 @@ const Home: NextPage = () => {
 
   const sortTodos = (todos: Todo[]) => {
     const { byDate, byCategory } = filterOptions
-    console.log(byDate, byCategory)
-
   }
+
   //TODO: solve the filter problem
   return (
     <div className='h-screen w-screen bg-slate-600 flex flex-col px-4 pt-4 pb-9'>

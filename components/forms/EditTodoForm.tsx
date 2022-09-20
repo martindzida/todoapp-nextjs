@@ -50,9 +50,9 @@ const EditTodoForm = (props: Props) => {
 
   const submitForm = (data: TodoFormProps) => {
     updTodo.mutate(data)
+    props.closeForm()
   }
 
-  console.log(props)
   return (
     <div className='bg-slate-700 text-center shadow-md rounded-md my-3 px-2 py-3' >
         <div className='flex flex-row justify-end'>
