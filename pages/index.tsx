@@ -60,12 +60,12 @@ const Home: NextPage = () => {
     setOpenModal('Edit Category');
   };
 
-  const getTodoById = (id: number, ts: Todo[]) => {
-    return ts.filter((t: Todo) => t.id === id)[0];
+  const getTodoById = (id: number, todos: Todo[]) => {
+    return todos.filter((todo: Todo) => todo.id === id)[0];
   };
 
-  const getCategoryById = (id: number, cs: Category[]) => {
-    return cs.filter((c: Category) => c.id === id)[0];
+  const getCategoryById = (id: number, categories: Category[]) => {
+    return categories.filter((category: Category) => category.id === id)[0];
   };
 
   const sortTodos = (todos: Todo[]) => {
