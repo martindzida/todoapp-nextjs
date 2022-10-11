@@ -47,7 +47,6 @@ const Home: NextPage = () => {
 
   const handleFilter = (filter: FilterParams) => {
     setFilterOptions(filter);
-    console.log(sortTodos(todos.data));
   };
 
   const handleTodoEdit = (id: number) => {
@@ -70,6 +69,8 @@ const Home: NextPage = () => {
 
   const sortTodos = (todos: Todo[]) => {
     const {byDate, byCategory} = filterOptions;
+    const sortedByDate = byDate === 'Desc' ? todos.sort((a: Todo, b: Todo) => b.id - a.id) : todos.sort((a: Todo, b: Todo) => a.id - b.id);
+    //FIXME: Cant sort by category, because Todo type doesnt include categories, so it will be screaming. And the whole app is not ready for filtering anyway
   };
 
   //TODO: solve the filter problem
@@ -86,6 +87,7 @@ const Home: NextPage = () => {
       <div className='text-white text-center p-2 pb-10'>
         <p className='text-xl md:text-2xl font-bold'>Simple Todo App</p>
       </div>
+      <Filter categories={categories.data} filtering={handleFilter} />
       <Display displaying={(display: DisplayType) => setDisplayList(display)} />
       <div className='overflow-auto scroll-smooth my-4'>
         {displayList === 'Todos'
