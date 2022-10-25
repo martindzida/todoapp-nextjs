@@ -14,7 +14,7 @@ model Todo {
   id Int @id @default(autoincrement())
   name String
   description String?
-  priority PriorityType? @default(Normal)
+  priority PriorityType @default(Normal)
   deadline DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

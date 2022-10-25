@@ -16,6 +16,7 @@ import EditTodoModal from '../components/modals/EditTodoModal';
 import EditCategoryModal from '../components/modals/EditCategoryModal';
 import AddTodoModal from '../components/modals/AddTodoModal';
 import AddCategoryModal from '../components/modals/AddCategoryModal';
+import DisplayItems from '../components/DisplayItems';
 
 type modalType = 'Add Todo' | 'Add Category' | 'Edit Todo' | 'Edit Category' | null;
 
@@ -91,32 +92,8 @@ const Home: NextPage = () => {
       <Display displaying={(display: DisplayType) => setDisplayList(display)} />
       <div className='overflow-auto scroll-smooth my-4'>
         {displayList === 'Todos'
-          ? todos.data.map((todo: TodoProps) => (
-              <TodoItem
-                key={todo.id}
-                id={todo.id}
-                name={todo.name}
-                description={todo.description}
-                priority={todo.priority}
-                deadline={todo.deadline}
-                createdAt={todo.createdAt}
-                updatedAt={todo.updatedAt}
-                categories={todo.categories}
-                handleEdit={handleTodoEdit}
-              />
-            ))
-          : categories.data.map((category: CategoryProps) => (
-              <CategoryItem
-                key={category.id}
-                id={category.id}
-                name={category.name}
-                description={category.description}
-                createdAt={category.createdAt}
-                updatedAt={category.updatedAt}
-                todos={category.todos}
-                handleEdit={handleCategoryEdit}
-              />
-            ))}
+          ? todos.data.map((todo: TodoProps) => <TodoItem key={todo.id} {...todo} handleEdit={handleTodoEdit} />)
+          : categories.data.map((category: CategoryProps) => <CategoryItem key={category.id} {...category} handleEdit={handleCategoryEdit} />)}
       </div>
       {openModal === 'Edit Todo' && (
         <EditTodoModal

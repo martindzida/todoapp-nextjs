@@ -33,18 +33,7 @@ const TodoItem = ({id, name, description, priority, deadline, categories, handle
     delMut.mutate(id);
   };
 
-  let priorityBg = '';
-  switch (priority) {
-    case 'Important':
-      priorityBg = 'bg-rose-600';
-      break;
-    case 'Normal':
-      priorityBg = 'bg-amber-500';
-      break;
-    case 'Low':
-      priorityBg = 'bg-green-600';
-      break;
-  }
+  const priorityBg: Record<string, string> = {Important: 'bg-rose-600', Normal: 'bg-amber-500', Low: 'bg-green-600'};
 
   return (
     <div className='bg-slate-700 text-white shadow-md rounded-md my-3 px-3 py-3'>
@@ -53,7 +42,7 @@ const TodoItem = ({id, name, description, priority, deadline, categories, handle
           <h4 className='text-lg font-bold'>{name}</h4>
         </div>
         <div className='flex-none flex justify-end ml-10 h-6'>
-          <span className={`${priorityBg} text-xs text-center font-semibold rounded-md px-2 py-1`}>{priority}</span>
+          <span className={`${priorityBg[priority]} text-xs text-center font-semibold rounded-md px-2 py-1`}>{priority}</span>
         </div>
       </div>
       <div className='p-2 mx-2 underline decoration-2 decoration-rose-500 underline-offset-4'>{formatDate(deadline)}</div>
