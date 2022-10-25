@@ -20,7 +20,7 @@ interface CategoryProps {
 interface TodoFormProps {
   name: string;
   description?: string | null;
-  priority?: Priority;
+  priority: Priority;
   deadline: Date;
 }
 

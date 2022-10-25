@@ -20,7 +20,7 @@ import DisplayItems from '../components/DisplayItems';
 import Header from '../components/Header';
 import AddItemBtn from '../components/AddItemBtn';
 
-type modalType = 'Add Todo' | 'Add Category' | 'Edit Todo' | 'Edit Category' | null;
+export type modalType = 'Add Todo' | 'Add Category' | 'Edit Todo' | 'Edit Category' | null;
 
 const Home: NextPage = () => {
   const [displayList, setDisplayList] = useState<DisplayType>('Todos');
@@ -83,8 +83,7 @@ const Home: NextPage = () => {
         <Filter categories={categories.data} filtering={handleFilter} />
         <DisplaySetting displaying={(display: DisplayType) => setDisplayList(display)} />
       </div>
-      <div className='overflow-auto scroll-smooth my-4'>
-        <DisplayItems itemsType={displayList} items={todos.data} />
+      <div className='overflow-auto scroll-smooth my-4 rounded-md'>
         {displayList === 'Todos'
           ? todos.data.map((todo: TodoProps) => <TodoItem key={todo.id} {...todo} handleEdit={handleTodoEdit} />)
           : categories.data.map((category: CategoryProps) => <CategoryItem key={category.id} {...category} handleEdit={handleCategoryEdit} />)}

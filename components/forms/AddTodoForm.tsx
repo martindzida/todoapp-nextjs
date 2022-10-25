@@ -17,7 +17,7 @@ enum Priority {
 interface TodoFormProps {
   name: string;
   description?: string;
-  priority?: Priority;
+  priority: Priority;
   deadline: Date;
   categories: [];
 }
@@ -118,3 +118,4 @@ const AddTodoForm = ({categories, closeForm}: Props) => {
 };
 
 export default AddTodoForm;
+
