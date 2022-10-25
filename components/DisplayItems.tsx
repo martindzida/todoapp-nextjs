@@ -1,5 +1,5 @@
 import React from 'react';
-import {DisplayType} from './Display';
+import {DisplayType} from './DisplaySetting';
 import {TodoProps} from './TodoItem';
 import {CategoryProps} from './CategoryItem';
 import TodoItem from './TodoItem';
@@ -11,7 +11,11 @@ interface Props {
 }
 
 const DisplayItems = ({itemsType, items}: Props) => {
-  return <div></div>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 };
 
 export default DisplayItems;

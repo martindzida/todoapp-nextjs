@@ -7,7 +7,7 @@ interface DisplayProps {
   displaying: (display: DisplayType) => void;
 }
 
-const Display = ({displaying}: DisplayProps) => {
+const DisplaySetting = ({displaying}: DisplayProps) => {
   const {register, handleSubmit} = useForm();
 
   const submitForm = (data: any) => {
@@ -26,4 +26,5 @@ const Display = ({displaying}: DisplayProps) => {
   );
 };
 
-export default Display;
+export default DisplaySetting;
+
